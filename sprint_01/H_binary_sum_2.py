@@ -45,8 +45,8 @@ def b_sum(a, b):
         res = str(r) + res
     return res
 
-# print(b_sum(a, b))
-print(b_sum('100', '0'))
+print(b_sum(a, b))
+# print(b_sum('100', '0'))
 # print(b_sum('10', '11'))
 # print(b_sum('1010', '1011'))
 # print(b_sum('111', '1'))
