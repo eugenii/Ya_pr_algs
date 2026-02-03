@@ -2,11 +2,12 @@
 # https://contest.yandex.ru/contest/22450/run-report/156206028/
 
 field_dict = dict()
-res = 0
+result = 0
+FIELD_SIZE = 4
 
 # Считали k и игровое поле
 k = int(input())
-for i in range(4):
+for i in range(FIELD_SIZE):
     line = input()
     for symb in line:
         if symb in field_dict:
@@ -16,11 +17,11 @@ for i in range(4):
 
 # print(*field_dict.items())   # Проверка  для отладки
 
-# Подсчитаем очки для каждого раунда (t = 0 ... 9)
+# Подсчитаем очки для каждого раунда (t = 0 ... 9, t - переменная из условия задачи)
 
 for t in range(1, 10):
-    c = str(t)
-    if c in field_dict and field_dict[c] <= k * 2:
-        res += 1
+    digit = str(t)
+    if digit in field_dict and field_dict[digit] <= k * 2:
+        result += 1
 
-print(res)
+print(result)
