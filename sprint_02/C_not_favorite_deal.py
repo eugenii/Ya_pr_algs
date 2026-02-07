@@ -15,12 +15,13 @@ def solution(node, idx):
     head = node
     pos = 0
     if idx == 0:
-        return head
+        return node.next_item
     while node.next_item:
         pos += 1
         if pos == idx:
             node.next_item = node.next_item.next_item
             return head
+        node = node.next_item
 
 
 
