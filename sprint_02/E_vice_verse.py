@@ -12,14 +12,21 @@ if LOCAL:
 
 
 def solution(node):
-    # Your code
-    # ヽ(´▽`)/
-    while node.next:
-        node.next, node.prev = node.prev, node.next
-        if node.prev:
-            node = node.prev
-        node.next, node.prev = node.prev, node.next
-    return node
+    previous_node = None
+    current_node = node
+    
+    # Проходим по всему списку
+    while current_node:
+        # Меняем местами next и prev
+        next_node = current_node.next
+        current_node.next, current_node.prev = current_node.prev, current_node.next
+        
+        # Переходим к следующему узлу
+        previous_node = current_node
+        current_node = next_node
+    
+    # В конце previous_node указывает на новую голову списка
+    return previous_node
 
 
 
