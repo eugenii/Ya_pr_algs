@@ -1,6 +1,17 @@
 # A Дек
+# Решение основано на теории, описанной в тренажере.
+# методы класса Deque вызываются в цикле, который считывает команды
+# и их аргументы.
+# Аргуманты передаются в виде списка в словаре commands.
+# Использование остатка от деления в операцих push_front и push_back позволяет
+# реализовать циклическую очередь.
+# ссылка на успешное решение: https://contest.yandex.ru/contest/22781/run-report/157058379/
+
 
 class Deque:
+    """
+    Класс реализует дек с ограниченной длиной.
+    """
     def __init__(self, max_size):
         self.max_size = max_size
         self.items = [None] * max_size
@@ -9,13 +20,19 @@ class Deque:
         self.size = 0
 
     def push_back(self, item):
+        """
+        Добавляет item в конец дека. Error, если дек заполнен.
+        """
         if self.size == self.max_size:
             return "error"
         self.items[self.tail] = item
-        self.tail = (self.tail + 1) % self.max_size  # не понял - для чего %?
+        self.tail = (self.tail + 1) % self.max_size
         self.size += 1
 
     def push_front(self, item):
+        """
+        Добавляет item в начало дека. Error, если дек заполнен.
+        """
         if self.size == self.max_size:
             return "error"
         self.head = (self.head - 1) % self.max_size
@@ -23,6 +40,9 @@ class Deque:
         self.size += 1
 
     def pop_back(self):
+        """
+        Удаляет и возвращает последний элемент дека. Error, если дек пуст.
+        """
         if self.size == 0:
             return "error"
         self.tail = (self.tail - 1) % self.max_size
@@ -31,6 +51,9 @@ class Deque:
         print(x)
 
     def pop_front(self):
+        """
+        Удаляет и возвращает первый элемент дека. Error, если дек пуст.
+        """
         if self.size == 0:
             return "error"
         x = self.items[self.head]
@@ -43,6 +66,7 @@ count, n = int(input()), int(input())
 
 dequeue = Deque(n)
 
+# Словарь команд
 commands = {
     "push_front": lambda arg: dequeue.push_front(int(arg[0])),
     "push_back": lambda arg: dequeue.push_back(int(arg[0])),
