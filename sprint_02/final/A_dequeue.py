@@ -12,7 +12,7 @@ class Deque:
         if self.size == self.max_size:
             return "error"
         self.items[self.tail] = item
-        self.tail = (self.tail + 1) % self.max_size  # не понял - для чего %?
+        self.tail = (self.tail + 1) % self.max_size
         self.size += 1
 
     def push_front(self, item):
