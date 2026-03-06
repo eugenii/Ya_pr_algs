@@ -22,7 +22,7 @@ def test():
 	expected = [1, 2, 4, 9, 10, 11]
 	assert b == expected
 	c = [1, 4, 2, 10, 1, 2]
-	merge_sort(c, 0 , 6)
+	merge_sort(c, 0, 6)
 	expected = [1, 1, 2, 2, 4, 10]
 	assert c == expected
 
