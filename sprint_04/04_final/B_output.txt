@@ -1,10 +1,7 @@
 None
-None
-None
 10
 4
+4
 None
-None
-None
-10
+5
 None

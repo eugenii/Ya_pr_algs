@@ -14,52 +14,57 @@ class HashTable:
         return abs(hash(key)) % self.size
 
     def put(self, key, value):
-        # 3. Логика добавления:
-        # - Находим нужную корзину через индекс
-        # - Если ключ уже есть в списке корзины — ОБНОВЛЯЕМ значение
-        # - Если ключа нет — ДОБАВЛЯЕМ пару [key, value] в список
-        busket = self.table[self._get_hash_index(key)]
-        if key in busket:
-            busket[key] = value
-        else:
-            busket.append([key, value])
+        index = self._get_hash_index(key)
+        # Ищем ключ в корзине
+        for item in self.table[index]:
+            if item[0] == key:
+                item[1] = value  # Обновляем значение
+                return
+        # Если не нашли — добавляем новую пару
+        self.table[index].append([key, value])
         
     def get(self, key):
-        # 4. Логика поиска:
-        # - Идем в нужную корзину
-        # - Перебираем элементы списка. Нашли ключ — вернули value
-        # - Не нашли — возвращаем None (или вызываем ошибку)
-        busket = self.table[self._get_hash_index(key)]
-        for k, v in busket:
-            if k == key:
-                return v
-        return None
+        index = self._get_hash_index(key)
+        for item in self.table[index]:
+            if item[0] == key:
+                return item[1]
+        return "None"
         
     def delete(self, key):
-        # 5. Логика удаления:
-        # - Идем в нужную корзину
-        # - Находим индекс элемента в списке по ключу
-        # - Удаляем (например, через pop() или del) и возвращаем значение
-        busket = self.table[self._get_hash_index(key)]
-        for i, (k, v) in enumerate(busket):
-            if k == key:
-                del busket[i]
+        index = self._get_hash_index(key)
+        bucket = self.table[index]
+        for i in range(len(bucket)):
+            if bucket[i][0] == key:
+                # Удаляем и возвращаем ЗНАЧЕНИЕ
+                result = bucket[i][1]
+                bucket.pop(i)
+                return result
+        return "None" # Важно возвращать строку "None" для вывода
+
 
 
 count = int(input())
 
-hash_table = HashTable()
+ht = HashTable()
 
 # Словарь команд
 commands = {
-    "put": lambda arg: hash_table.put(int(arg[0]), int(arg[1])),
-    "get": lambda arg: hash_table.get(int(arg[0])),
-    "delete": lambda arg: hash_table.delete(int(arg[0])),
+    "put": lambda arg: ht.put(int(arg[0]), int(arg[1])),
+    "get": lambda arg: ht.get(int(arg[0])),
+    "get": lambda arg: ht.get(int(arg[0])),
+    "delete": lambda arg: ht.delete(int(arg[0])),
 }
+# Читаем количество команд n
 for _ in range(count):
-    command, *arg = input().split()
-    result = commands[command](arg)
-    print(result)
+    command = input().split()
+    cmd_name = command[0]
+    
+    if cmd_name == 'put':
+        ht.put(int(command[1]), int(command[2]))
+    elif cmd_name == 'get':
+        print(ht.get(int(command[1])))
+    elif cmd_name == 'delete':
+        print(ht.delete(int(command[1])))
 
 
         
