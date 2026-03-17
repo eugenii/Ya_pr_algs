@@ -1,6 +1,5 @@
 # B Хеш таблица.
 
-
 class HashTable:
     def __init__(self, size=100003):
         # 1. Создаем массив "корзин" (buckets)
@@ -15,32 +14,27 @@ class HashTable:
 
     def put(self, key, value):
         index = self._get_hash_index(key)
-        # Ищем ключ в корзине
         for item in self.table[index]:
             if item[0] == key:
-                item[1] = value  # Обновляем значение
+                item[1] = value  # Теперь это сработает, если в корзине списки
                 return
-        # Если не нашли — добавляем новую пару
         self.table[index].append([key, value])
-        
+
     def get(self, key):
         index = self._get_hash_index(key)
         for item in self.table[index]:
             if item[0] == key:
-                return item[1]
+                return item[1] # Возвращаем только ЗНАЧЕНИЕ
         return "None"
-        
+
     def delete(self, key):
         index = self._get_hash_index(key)
         bucket = self.table[index]
         for i in range(len(bucket)):
             if bucket[i][0] == key:
-                # Удаляем и возвращаем ЗНАЧЕНИЕ
-                result = bucket[i][1]
-                bucket.pop(i)
-                return result
-        return "None" # Важно возвращать строку "None" для вывода
-
+                # Удаляем всю пару, но возвращаем только ЗНАЧЕНИЕ
+                return bucket.pop(i)[1]
+        return "None"
 
 
 count = int(input())
@@ -65,6 +59,3 @@ for _ in range(count):
         print(ht.get(int(command[1])))
     elif cmd_name == 'delete':
         print(ht.delete(int(command[1])))
-
-
-        
