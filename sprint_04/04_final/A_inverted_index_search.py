@@ -7,6 +7,7 @@
 
 from collections import defaultdict
 
+MOST_COMMON = 5
 index = defaultdict(lambda: defaultdict(int))
 for i in range(int(input())):
     for word in input().split():
@@ -28,5 +29,5 @@ for _ in range(int(input())):
     sorted_docs = sorted(relevance.items(), key=lambda x: (-x[1], x[0]))
 
     # Забираем первые 5 ID (не забываем +1, так как в индексе они с нуля)
-    result = [doc_id + 1 for doc_id, count in sorted_docs[:5]]
+    result = [doc_id + 1 for doc_id, count in sorted_docs[:MOST_COMMON]]
     print(*result)
