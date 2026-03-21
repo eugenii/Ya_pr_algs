@@ -1,5 +1,5 @@
 # B Хеш таблица.
-# ссылка на успешное решение: https://contest.yandex.ru/contest/24414/run-report/158997567/   - обновлено
+# ссылка на успешное решение: https://contest.yandex.ru/contest/24414/run-report/158743396/
 # Задача Б реализует хеш-таблицу с разрешением коллизий методом цепочек, 
 # обеспечивая среднюю сложность O(1)для операций вставки, получения и удаления 
 # при O(N) по памяти в худшем случае (если все ключи попали в одну корзину).
@@ -15,7 +15,7 @@ class Node:
 class HashTable:
     def __init__(self, size=100003):
         self.size = size
-        # 1. Создаем массив из None. 
+        # Создаем массив из None. 
         # Теперь каждая ячейка — это потенциальная "голова" списка.
         self.table = [None] * self.size
 
@@ -92,6 +92,7 @@ ht = HashTable()
 # Словарь команд
 commands = {
     "put": lambda arg: ht.put(int(arg[0]), int(arg[1])),
+    "get": lambda arg: ht.get(int(arg[0])),
     "get": lambda arg: ht.get(int(arg[0])),
     "delete": lambda arg: ht.delete(int(arg[0])),
 }
