@@ -1,6 +1,8 @@
 # E Дерево поиска.
 import os
 
+from math import inf
+
 LOCAL = os.environ.get('REMOTE_JUDGE', 'false') != 'true'
 
 if LOCAL:
@@ -11,32 +13,34 @@ if LOCAL:
             self.left = left
 
 
-def append_vertices(left_vertices, right_vertices, node):
-    if node.left:
-        left_vertices.append(node.left)
-    if node.right:
-        right_vertices.append(node.right)
+# def append_vertices(vertices, node, min_value, max_value):
+#     if min_value < node.value < max_value:
+#         vertices.append((node.value, node)
 
 
 def solution(root) -> bool:
-    left_vertices, right_vertices = [], []
-    left_value, right_value = root.value, root.value
+    stack = [(root, float('-inf'), float('inf'))]
 
-    append_vertices(left_vertices, right_vertices, root)
-    while left_vertices or right_vertices:
-        if left_vertices:
-            vertex = left_vertices.pop()
-            if vertex.value > left_value:
-                return False
-            append_vertices(left_vertices, right_vertices, vertex)
-            left_value = vertex.value
-        if right_vertices:
-            vertex = right_vertices.pop()
-            if vertex.value < right_value:
-                return False
-            append_vertices(left_vertices, right_vertices, vertex)
-            right_value = vertex.value
-        return True
+    while stack:
+        curr, min_val, max_val = stack.pop()
+        
+        # 1. Проверяем значение текущего узла
+        if not (min_val < curr.value < max_val):
+            return False
+            
+        # 2. Добавляем правого ребенка (если есть)
+        # Для него: минимум обновляется на значение текущего узла
+        if curr.right:
+            stack.append((curr.right, curr.value, max_val))
+            
+        # 3. Добавляем левого ребенка (если есть)
+        # Для него: максимум обновляется на значение текущего узла
+        if curr.left:
+            stack.append((curr.left, min_val, curr.value))
+
+    return True
+        
+        
        
 
 
