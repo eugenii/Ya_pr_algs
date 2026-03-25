@@ -1,6 +1,13 @@
 # A поисковая система
+#   ссылка на успешное решение: https://contest.yandex.ru/contest/24414/run-report/158670893/
+# Решение задачи А использует инвертированный индекс для создания карты слов к документам, 
+# обеспечивая временную сложность поиска O(M + K log K), где K - количество документов. 
+#  через накопление релевантности, при этом построение индекса занимает O(L) времени и памяти.
+# Использование set() для запроса позволяет избежать лишних вычислений для повторяющихся слов, что критично при больших запросах.
+
 from collections import defaultdict
 
+MOST_COMMON = 5
 index = defaultdict(lambda: defaultdict(int))
 for i in range(int(input())):
     for word in input().split():
@@ -22,5 +29,5 @@ for _ in range(int(input())):
     sorted_docs = sorted(relevance.items(), key=lambda x: (-x[1], x[0]))
 
     # Забираем первые 5 ID (не забываем +1, так как в индексе они с нуля)
-    result = [doc_id + 1 for doc_id, count in sorted_docs[:5]]
+    result = [doc_id + 1 for doc_id, count in sorted_docs[:MOST_COMMON]]
     print(*result)
