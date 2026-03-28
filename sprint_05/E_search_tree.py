@@ -13,11 +13,6 @@ if LOCAL:
             self.left = left
 
 
-# def append_vertices(vertices, node, min_value, max_value):
-#     if min_value < node.value < max_value:
-#         vertices.append((node.value, node)
-
-
 def solution(root) -> bool:
     stack = [(root, float('-inf'), float('inf'))]
 
@@ -39,9 +34,6 @@ def solution(root) -> bool:
             stack.append((curr.left, min_val, curr.value))
 
     return True
-        
-        
-       
 
 
 def test():
