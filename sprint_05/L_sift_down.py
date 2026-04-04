@@ -18,8 +18,8 @@ def sift_down(heap, idx) -> int:
     # отправляем максимум на вершину кучи и рекурсивно завпускаем просеивание в ребенке
     if heap[index_largest] > heap[idx]:
         heap[index_largest], heap[idx] = heap[idx], heap[index_largest]
-        sift_down(heap, index_largest)
-
+        return sift_down(heap, index_largest)
+    return idx
             
 def test():
     sample = [-1, 12, 1, 8, 3, 4, 7]
