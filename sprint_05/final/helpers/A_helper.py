@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import sys
 
 
-@dataclass(order=True)
+@dataclass
 class Participant:
     tasks: int
     penalty: int
@@ -21,32 +21,38 @@ class Participant:
         return self.login > other.login
 
 
-def sift_down(heap, idx) -> int:
-    heap_max_index = len(heap)-1
-    left = idx * 2 + 1
-    right = idx * 2 + 2
+def sift_down(array, idx, n): # Добавляем n - текущий размер кучи
+    left = 2 * idx + 1
+    right = 2 * idx + 2
+    largest = idx
 
-    # нет дочерних узлов
-    if left > heap_max_index:
-        return idx
-    
-    # проверяем, что есть оба дочерних узла
-    if right <= heap_max_index and heap[right] > heap[left]:
-        index_largest = right
-    else:
-        index_largest = left
-    # отправляем максимум на вершину кучи и рекурсивно завпускаем просеивание в ребенке
-    if heap[index_largest] > heap[idx]:
-        heap[index_largest], heap[idx] = heap[idx], heap[index_largest]
-        return sift_down(heap, index_largest)
-    return idx
+    # Ищем самого "сильного" среди родителя и детей
+    if left < n and array[largest] < array[left]:
+        largest = left
+    if right < n and array[largest] < array[right]:
+        largest = right
+
+    # Если самый сильный не родитель - меняем
+    if largest != idx:
+        array[idx], array[largest] = array[largest], array[idx]
+        sift_down(array, largest, n)
 
 
-def heapify(participants):
-    n = len(participants)
-    # Начинаем с последнего родителя и идем к корню
+def heap_sort(array):
+    n = len(array)
+    # 1. Строим кучу (Heapify)
     for i in range(n // 2 - 1, -1, -1):
-        sift_down(participants, i, n) # n здесь — размер кучи
+        sift_down(array, i, n)
+
+    # 2. Вынимаем элементы по одному
+    for i in range(n - 1, 0, -1):
+        # Самый лучший (на индексе 0) едет в конец массива
+        array[0], array[i] = array[i], array[0]
+        # Теперь куча стала меньше на один элемент
+        sift_down(array, 0, i) 
+
+
+
 
 
 count = int(input())
@@ -55,6 +61,10 @@ for _ in range(count):
     login, tasks, penalty = sys.stdin.readline().split()
     participants.append(Participant(int(tasks), -int(penalty), login))
 
+heap_sort(participants)
+
+for participant in participants:
+    print(participant.login)
 
 
 '''
