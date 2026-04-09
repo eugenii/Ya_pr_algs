@@ -14,9 +14,23 @@ else:
 
 
 def remove(root, key) -> Optional[Node]:
-    #  Your code
-    #  “ヽ(´▽｀)ノ”
-    pass
+    if not root:
+        return None
+    
+    # Узел есть, проверяем "лево-право" рекурсивно и в конце концов удалим
+    if key < root.value:
+        root.left = remove(root.left, key)
+    elif key > root.value:
+        root.right = remove(root.right, key)
+    # Попали на удаляемый узел
+    else:  
+        if not root.left:
+            return root.right
+        if not root.right:
+            return root.left
+        
+
+    return root
 
 
 def test():
