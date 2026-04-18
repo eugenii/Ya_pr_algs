@@ -11,15 +11,15 @@ def dfs(v, graph):
         if not visited[neighbour]:
             dfs(neighbour, graph)
 
-def dfs_2(v, graph):
-    visited[v] = True
-    print(v, end=' ')
-    count = 1  # Считаем саму текущую вершину
-    for neighbour in graph[v]:
-        if not visited[neighbour]:
-            # Прибавляем результат похода вглубь к общему счетчику
-            count += dfs(neighbour, graph)
-    return count
+# def dfs_2(v, graph):
+#     visited[v] = True
+#     print(v, end=' ')
+#     count = 1  # Считаем саму текущую вершину
+#     for neighbour in graph[v]:
+#         if not visited[neighbour]:
+#             # Прибавляем результат похода вглубь к общему счетчику
+#             count += dfs(neighbour, graph)
+#     return count
 
 
 data = sys.stdin.read().split()
@@ -36,6 +36,7 @@ for edge in range(m):
     adj[u].append(v)
     adj[v].append(u)
     cursor += 2
+
 s = int(data[cursor]) 
 
 for neighbours in adj:
