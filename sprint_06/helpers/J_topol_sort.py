@@ -23,7 +23,7 @@ for i in range(m):
 for _ in adj:
     _.sort()
 
-print(adj)
+# print(adj)
 
 def top_sort(v):
     color[v] = 'gray'
