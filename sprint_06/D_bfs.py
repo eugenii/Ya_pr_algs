@@ -54,5 +54,5 @@ def bfs(s):
         color[u] = 'black'
 
 bfs(s)
-# print(*way)
-print(max(distance[1:]))
+print(*way)
+# print(max(distance[1:]))
