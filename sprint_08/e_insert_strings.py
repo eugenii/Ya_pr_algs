@@ -1,23 +1,24 @@
-# Вставка строк.
 import sys
 
 
-
 def solve():
-    data = sys.stdin.read().splitlines()
-    if not data:
-        return 
-    
-    s = data[0]
-    n = int(data[1])
+    # ИСПОЛЬЗУЕМ БЫСТРЫЙ ВВОД (sys.stdin.read), чтобы не буксовать на 100k строках
+    input_data = sys.stdin.read().splitlines()
+
+    if not input_data:
+        return
+
+    s = input_data[0]
+    n = int(input_data[1])
 
     # Хранилище вставок: ключ — индекс в s, значение — строка для вставки
     # k_i может быть от 0 до len(s)
     insertions = {}
 
     for i in range(2, 2 + n):
-        t_i, k_i = data[i].split()
-        insertions[int(k_i)] = t_i
+        t_i, k_i_str = input_data[i].split()
+        k_i = int(k_i_str)
+        insertions[k_i] = t_i
 
     result = []
 
@@ -44,7 +45,6 @@ if __name__ == "__main__":
 
 
 
-
 # Плохой вариант:
 # В чем проблема текущего решения?
 # Сортировка внутри цикла: Строка strings.sort(...) находится внутри цикла for. 
@@ -62,14 +62,9 @@ if __name__ == "__main__":
 #     strings.append(input().split())
 #     strings.sort(key=lambda x: int(x[1]))
 
-# print(strings)
-
 # for s in strings:
 #     head = line[: int(s[1]) + base]
 #     tail = line[int(s[1]) + base:]
 #     line = head + s[0] + tail
 #     base += len(s[0])
-#     # print(line)
-
-
-# assert line == 'dequeabqueueacabastack'
+# print(line)
