@@ -41,3 +41,31 @@ if __name__ == '__main__':
 # print(check_pattern([3, 6, 10, 2], [3, 4, -8]))
 # print(check_pattern([0, 0, -2, 0, 5], [0, -2, 2, 5]))
       
+# Решение от Google AI
+# Передаем индексы, избегая копирования памяти через срезы
+def check_pattern(
+    temperature: list[int], start_idx: int, shift_pattern: list[int]
+) -> bool:
+    for idx in range(len(shift_pattern)):
+        # Сравниваем элементы прямо в исходном массиве
+        current_diff = (
+            temperature[start_idx + idx + 1] - temperature[start_idx + idx]
+        )
+        if current_diff != shift_pattern[idx]:
+            return False
+    return True
+
+
+def search_with_shift(
+    temperature: list[int], shift_pattern: list[int]
+) -> list[int]:
+    res = []
+    # Если шаблон состоит из 1 элемента, разностей нет — он подходит везде
+    if not shift_pattern:
+        return list(range(1, len(temperature) + 1))
+
+    # Длина окна разностей на 1 меньше, чем длина исходного шаблона
+    for idx in range(len(temperature) - len(shift_pattern)):
+        if check_pattern(temperature, idx, shift_pattern):
+            res.append(idx + 1)
+    return res if res else [-1]
