@@ -1,5 +1,5 @@
 # Финальное задание спринта 8 Packed Prefix
-# Yandex Context solution ID 162560959
+# Yandex Context solution ID https://contest.yandex.ru/contest/26133/run-report/162603350/    ( 162560959 )
 # Временная сложность (Time Complexity):
 # O(N * L), где N — число строк, а L — максимальная длина распакованной строки (до 10^5). 
 # Мы тратим время на распаковку каждой строки и её посимвольное сравнение с префиксом.
@@ -10,26 +10,27 @@
 import sys
 
 
+NUMBERS = set("0123456789")
+
+
 def unpack_string(compressed_str: str) -> str:
     """Распаковывает запакованную строку (ЗС) по правилу n[A]."""
     stack: list[tuple[str, int]] = []
     current_str: str = ""
-    current_num: int = 0
+    current_num: str = ""
 
-    for char in compressed_str:
-        if char.isdigit():
-            # Так как числа однозначные, можно просто приравнять
-            # В курсе python разработчик была у меня такая задача - там число набирал умножением.. 
-            current_num = int(char)
-        elif char == '[':
-            stack.append((current_str, current_num))
+    for symb in compressed_str:
+        if symb in NUMBERS:
+            current_num = current_num + symb
+        elif symb == '[':
+            stack.append((current_str, int(current_num)))
             current_str = ""
-            current_num = 0
-        elif char == ']':
+            current_num = ""
+        elif symb == ']':
             prev_str, num = stack.pop()
             current_str = prev_str + current_str * num
         else:
-            current_str += char
+            current_str += symb
 
     return current_str
 
@@ -39,7 +40,6 @@ def find_longest_common_prefix(strings_count: int, lines_iterator) -> str:
     if strings_count == 0:
         return ""
 
-    # Распаковываем самую первую строку и берём её за эталонный префикс
     try:
         first_line = next(lines_iterator).strip()
     except StopIteration:
@@ -47,7 +47,6 @@ def find_longest_common_prefix(strings_count: int, lines_iterator) -> str:
         
     common_prefix: str = unpack_string(first_line)
 
-    # Поочередно обрабатываем остальные строки
     for _ in range(1, strings_count):
         try:
             line = next(lines_iterator).strip()
@@ -56,17 +55,14 @@ def find_longest_common_prefix(strings_count: int, lines_iterator) -> str:
             
         current_str: str = unpack_string(line)
         
-        # Обрезаем общий префикс до длины текущей строки, если она короче
         if len(current_str) < len(common_prefix):
             common_prefix = common_prefix[:len(current_str)]
-            
-        # Сравниваем посимвольно текущую строку с префиксом
+
         for i in range(len(common_prefix)):
             if common_prefix[i] != current_str[i]:
                 common_prefix = common_prefix[:i]
                 break
                 
-        # Если общий префикс сократился до пустой строки, продолжать нет смысла
         if not common_prefix:
             return ""
 
@@ -74,7 +70,6 @@ def find_longest_common_prefix(strings_count: int, lines_iterator) -> str:
 
 
 if __name__ == "__main__":
-    # Читаем все данные из sys.stdin эффективным итератором
     input_data = sys.stdin.read().splitlines()
     if input_data:
         n = int(input_data[0])

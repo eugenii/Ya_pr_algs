@@ -1,5 +1,5 @@
 # Финальное задание спринта 8 Packed Prefix
-# Yandex Context solution ID https://contest.yandex.ru/contest/26133/run-report/162560959/    ( 162560959 )
+# Yandex Context solution ID https://contest.yandex.ru/contest/26133/run-report/162603350/    ( 162560959 )
 # Временная сложность (Time Complexity):
 # O(N * L), где N — число строк, а L — максимальная длина распакованной строки (до 10^5). 
 # Мы тратим время на распаковку каждой строки и её посимвольное сравнение с префиксом.
@@ -10,24 +10,27 @@
 import sys
 
 
+NUMBERS = set("0123456789")
+
+
 def unpack_string(compressed_str: str) -> str:
     """Распаковывает запакованную строку (ЗС) по правилу n[A]."""
     stack: list[tuple[str, int]] = []
     current_str: str = ""
-    current_num: int = 0
+    current_num: str = ""
 
-    for char in compressed_str:
-        if char.isdigit():
-            current_num = int(char)
-        elif char == '[':
-            stack.append((current_str, current_num))
+    for symb in compressed_str:
+        if symb in NUMBERS:
+            current_num = current_num + symb
+        elif symb == '[':
+            stack.append((current_str, int(current_num)))
             current_str = ""
-            current_num = 0
-        elif char == ']':
+            current_num = ""
+        elif symb == ']':
             prev_str, num = stack.pop()
             current_str = prev_str + current_str * num
         else:
-            current_str += char
+            current_str += symb
 
     return current_str
 
